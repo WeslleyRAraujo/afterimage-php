@@ -9,7 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@300&family=Raleway&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?php asset("css/home.css") ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
 </head>
 <body>
     <div class="content">
@@ -19,7 +18,7 @@
                 <a href="./">Home</a>
             </li>
             <li>
-                <a href="https://github.com/WeslleyRAraujo">Docs</a>
+                <a href="https://github.com/WeslleyRAraujo/afterimage-php/blob/main/README.md" target="_blank">Docs</a>
             </li>
             <li>
                 <a href="https://github.com/WeslleyRAraujo" target="_blank">GitHub</a>
