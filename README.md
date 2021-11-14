@@ -23,12 +23,12 @@ arquivo **/public/index.php**
 ```php
 <?php
 // arquivo que tem como função chamar os includes entre outras depências projeto
-include_once  "./bootstrap.php";
+include_once "./bootstrap.php";
 
 // classe do Roteador
-use  Afterimage\Core\Router;
+use Afterimage\Core\Router;
 
-$route =  new  Router();
+$route = new Router();
 
 // na rota principal será executado o método index do controlador 
 // HomeController que tem a função de retornar a view da paǵina principal
@@ -47,9 +47,9 @@ A estrutura básica do controlador tem a seguinte interface:
 arquivo **/app/controller/HomeController.php**
 ```php
 <?php
-namespace  App\Controller; // namespace da aplicação
+namespace App\Controller; // namespace da aplicação
 
-use  Afterimage\Core\Controller; // core do controlador
+use Afterimage\Core\Controller; // core do controlador
 
 // nome do controlador + extensão da classe core
 class HomeController  extends  Controller
@@ -58,14 +58,14 @@ class HomeController  extends  Controller
 	* o método index retorna a view home
 	* o arquivo 'home' está localizado em /app/views/home.php
 	*/
-	public  function  index()
+	public function index()
 	{
 		// a função view pode receber o nome da view + variáveis de escape em forma de array
-		return  view('home',  ['title'  =>  'Home']);
+		return view('home',  ['title'  =>  'Home']);
 	}
 }
 ```
-# Views
+## Views [Twig template Engine]
 
 As views estão localizadas em **/app/views**
 
@@ -73,3 +73,9 @@ As views estão localizadas em **/app/views**
 - As views precisam estar com a extensão **.twig** para funcionar.
 	> O template é retornado da forma abaixo, assim como a estrutura básica da documentação oficial do Twig.
 	> exemplo: ``` return view('home', ['title' => 'Home']);```
+
+## Configurações do .env
+
+As configurações da aplicação podem ser alteradas ou adicionadas no arquivo **/app/config/.env**
+
+- *O Afterimage usa o básico para conexão com o banco de dados e arquivo padrão em caso de erros.*
