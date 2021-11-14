@@ -67,15 +67,9 @@ class HomeController  extends  Controller
 ```
 # Views
 
-
 As views estão localizadas em **/app/views**
 
-- As views possuem variáveis de escape para auxiliar na criação da view *[melhorias estão sendo implementadas]*.
-	> As variáveis passadas por array em uma view podem ser utilizadas de forma direta dentro da view.
+- A template engine usada para as views é o Twig na versão 3.0, link para consulta: https://twig.symfony.com/doc/3.x/
+- As views precisam estar com a extensão **.twig** para funcionar.
+	> O template é retornado da forma abaixo, assim como a estrutura básica da documentação oficial do Twig.
 	> exemplo: ``` return view('home', ['title' => 'Home']);```
-	> dentro do arquivo **/app/views/home.php** você pode utilizar o seguinte recurso: 
-	> ```<title> <?=$title?> </title>``` isso irá imprimir 'Home' no lugar.
-<br>
-- Também há métodos para auxiliar no molde da view.
-	> função **extend_view** para auxiliar na extensão de um template.
-	> função **asset** para auxiliar na adição de um asset (js, css, ícones, etc).

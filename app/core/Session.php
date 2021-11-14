@@ -32,11 +32,22 @@ class Session
         }
     }
 
+    public function get($sessionValue)
+    {
+        foreach($sessionValue as $key => $value) {
+            if(isset($_SESSION[$key]) && $_SESSION[$key] === $value) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
     // mata todas a sessões, recomendação diretamente do manual do PHP 
     // https://www.php.net/manual/pt_BR/function.session-destroy.php
     public static function kill()
     {
-        $_SESSION = array();
+        $_SESSION = [];
         if (ini_get("session.use_cookies")) {
             $params = session_get_cookie_params();
             setcookie(session_name(), '', time() - 42000,
@@ -45,5 +56,9 @@ class Session
             );
         }
         session_destroy();
+
+        foreach($_SESSION as $key) {
+            unset($_SESSION[$key]);
+        }
     }
 }

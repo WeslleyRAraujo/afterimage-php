@@ -6,9 +6,8 @@ use Afterimage\Core\Router;
 
 $route = new Router();
 
-// get route
-// $route->get('home', 'App\Controller\HomeController:index');
 $route->get('/', 'App\Controller\HomeController:index');
+$route->get('/login', 'App\Controller\LoginController:index');
+$route->get('/login/exit', 'App\Controller\LoginController:exit');
 
-// post route
-//$route->post('teste', 'App\Controller\TestController:store');
+$route->post('/login/auth', 'App\Controller\LoginController:auth');

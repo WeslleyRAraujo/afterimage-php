@@ -1,0 +1,54 @@
+html {
+    height: 100%;
+    min-height: 100%;
+}
+
+body {
+    min-height: 100%;
+    background-color: #222;
+}
+
+input {
+    transition: 0.75s;
+    border: 0px !important;
+    border-bottom: 2px solid black !important;
+    border-radius: 0px !important;
+}
+
+input:hover {
+    border-color: #6ee1f5 !important;
+    border-collapse: collapse !important;
+}
+
+input:focus {
+    box-shadow: 0 0 0 0 !important;
+    border: 0 none !important;
+    outline: 0 !important;
+    border-bottom: 2px solid #6ee1f5 !important;
+}
+
+.card-body {
+    transition: 0.75s;
+}
+
+.btn {
+    transition: 0.75s;
+    font-weight: 400 !important;
+}
+
+.btn:hover {
+    transition: 0.75s;
+    background: #6ee1f5 !important;
+    color: #000 !important;
+    border-color: #6ee1f5 !important;
+}
+
+#link-github {
+    font-weight: 500 !important;
+    text-decoration: none !important;
+}
+
+#link-github:hover {
+    transition: 0.25s;
+    color: #6ee1f5 !important;
+}

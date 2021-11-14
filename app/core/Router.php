@@ -12,16 +12,24 @@ class Router
     // salva as rotas post
     private $postRoutes = [];
 
+    // middleware validator
+    private $hasPermission;
+
     public function __destruct()
     {
-        $this->hasView();
+        $this->hasRoute();
     }
 
     // método que faz a chamada do controlador quando a requisição é do tipo GET
     public function get(string $route, string $controller)
     {
+
         if(Http::requestType() === 'GET') {
 
+            if(substr($route, 0, 1) === "/" && strlen($route) > 1) {
+                $route = substr($route, 1);
+            }
+            
             $url = str_replace(".php", "", $_REQUEST['url'] ?? '/'); 
 
             // inserindo mais um índice ao $this->getRoutes
@@ -31,14 +39,21 @@ class Router
                 if(!$this->checkController($controller)) {
                     die();
                 }
+                unset($_GET);
             }
         }
+        return $this;
     }
     
     // método que faz a chamada do controlador quando a requisição é do tipo POST
     public function post(string $route, string $controller)
     {
         if(Http::requestType() == 'POST') {
+
+            if(substr($route, 0, 1) === "/") {
+                $route = substr($route, 1);
+            }
+
             $url = str_replace(".php", "", $_REQUEST['url'] ?? '/');
 
             // inserindo mais um índice ao $this->getRoutes
@@ -61,18 +76,17 @@ class Router
         $class = $controller[0];
         $method = $controller[1];
 
-        try {
+        if(class_exists($class)) {
             call_user_func([$class, $method]);
             return true;
-        } catch (Exception $e) {
-            throw new Exception(sprintf("não foi possível localizar o controlador %s", $controller[0]));
-            return false; exit();
+        } else {
+            return false;
         }
     }
 
     // esse método tem a função de verificar se url acessada está contida no atributo $this->getRoutes ou em $this->postRoutes
     // caso não esteja será retornado a página de erro configurada no arquivo .env
-    private function hasView()
+    private function hasRoute()
     {
         $url = str_replace(".php", "", $_REQUEST['url'] ?? '/');
 

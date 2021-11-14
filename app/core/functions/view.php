@@ -7,22 +7,14 @@
  */
 
 use Afterimage\Core\View;
+use App\Classes\Twig;
 
 if(!function_exists('view')) {
 
     // função para retornar uma view
     function view($view, $args = [])
     {
-        View::getView($view, $args);
-    }
-}
-
-if(!function_exists('extend_view')) {
-
-    // função para extender a view
-    function extend_view($view)
-    {
-        View::extends($view);
+        Twig::view($view, $args);
     }
 }
 
