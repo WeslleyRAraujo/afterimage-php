@@ -20,7 +20,7 @@ Para criar uma rota é necessário definir um controlador também, como no templ
 <br>
 
 arquivo **/public/index.php**
-```console
+```php
 <?php
 // arquivo que tem como função chamar os includes entre outras depências projeto
 include_once  "./bootstrap.php";
@@ -45,7 +45,7 @@ A estrutura básica do controlador tem a seguinte interface:
 <br>
 
 arquivo **/app/controller/HomeController.php**
-```console
+```php
 <?php
 namespace  App\Controller; // namespace da aplicação
 
@@ -72,7 +72,7 @@ As views estão localizadas em **/app/views**
 
 - As views possuem variáveis de escape para auxiliar na criação da view *[melhorias estão sendo implementadas]*.
 	> As variáveis passadas por array em uma view podem ser utilizadas de forma direta dentro da view.
-	> exemplo: ```return view('home', ['title' => 'Home']);```
+	> exemplo: ```php return view('home', ['title' => 'Home']);```
 	> dentro do arquivo **/app/views/home.php** você pode utilizar o seguinte recurso: 
 	> ```<title> <?=$title?> </title>``` isso irá imprimir 'Home' no lugar.
 <br>
