@@ -72,7 +72,7 @@ As views estão localizadas em **/app/views**
 
 - As views possuem variáveis de escape para auxiliar na criação da view *[melhorias estão sendo implementadas]*.
 	> As variáveis passadas por array em uma view podem ser utilizadas de forma direta dentro da view.
-	> exemplo: ```php return view('home', ['title' => 'Home']);```
+	> exemplo: ``` return view('home', ['title' => 'Home']);```
 	> dentro do arquivo **/app/views/home.php** você pode utilizar o seguinte recurso: 
 	> ```<title> <?=$title?> </title>``` isso irá imprimir 'Home' no lugar.
 <br>
