@@ -21,7 +21,6 @@ Para criar uma rota é necessário definir um controlador também, como no templ
 
 arquivo **/public/index.php**
 ```php
-<?php
 // arquivo que tem como função chamar os includes entre outras depências projeto
 include_once "./bootstrap.php";
 
@@ -46,13 +45,12 @@ A estrutura básica do controlador tem a seguinte interface:
 
 arquivo **/app/controller/HomeController.php**
 ```php
-<?php
 namespace App\Controller; // namespace da aplicação
 
 use Afterimage\Core\Controller; // core do controlador
 
-// nome do controlador + extensão da classe core
-class HomeController  extends  Controller
+// nome do controlador
+class HomeController
 {
 	/**
 	* o método index retorna a view home
