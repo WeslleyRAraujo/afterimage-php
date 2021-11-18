@@ -1,21 +1,37 @@
 <?php
-
+/**
+ * Controlador exemplo da rota /
+ * 
+ * @author Weslley Araujo (WeslleyRAraujo)
+ */
 namespace App\Controller;
 
-use Afterimage\Core\Controller;
-use Afterimage\Core\Session;
-use Afterimage\Core\Route;
+use Afterimage\Core\Http;
+use Afterimage\Core\Sentinel;
 
-class HomeController extends Controller
+class HomeController
 {
+    /**
+     * Retorna view home localizada em /app/views/home.twig
+     * 
+     * @return Twig::display
+     */
     public function index()
     {
-        if(!Session::get(['logged' => true])) {
-            return header("location: /login");
-        } else {
-            return view('home', ['title' => 'Home']);
-        }
+        return view('home', [
+            'title' => 'Tela Inicial',
+            'breadcrumb' => ['Home']
+        ]);
+    }
+
+    /**
+     * Mostra um json
+     */
+    public function json()
+    {
+        echo json_encode([
+                'message' => 'Thanks!!!!',
+                'github' => 'WeslleyRAraujo'
+        ], JSON_PRETTY_PRINT);
     }
 }
-
-?>

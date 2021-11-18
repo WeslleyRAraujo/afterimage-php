@@ -1,15 +1,23 @@
 <?php
 
+/**
+ * Classe responsável pela conexão com o banco de dados e execução das instruções
+ *  
+ * @author Weslley Araujo (WeslleyRAraujo)
+ */
+
 namespace Afterimage\Core;
 use Afterimage\Core\EnvReader;
 use \PDO;
 
 class Database extends PDO
 {
-    // atributo que recebe a conexão
+
     private $conn;
 
-    // setando a conexão do banco de dados, parâmetros estão no arquivo .env
+    /**
+     * Seta as configurações de conexão com o banco de dados
+     */
     public function __construct()
     {
         $this->conn = new PDO(
@@ -21,7 +29,14 @@ class Database extends PDO
         );
     }
     
-    // método que recebe um array e separa os elementos para fazer um bindparam
+    /**
+     * recebe o statment e os parâmetros para criar o bindParam dos argumentos
+     * 
+     * @param PDO $stmt, estado atual da conexão 
+     * @param array $parameteres, parâmetros para fazer o bindParam
+     * 
+     * @return void
+     */
     private function setParams($statment, $parameters = [])
     {
         foreach($parameters as $key => $value)
@@ -30,14 +45,29 @@ class Database extends PDO
         }
     }
 
-    // método que faz o bindparam
+    /**
+     * realiza o bindParam de fato
+     * 
+     * @param PDO $statment, estado atual da conexão
+     * @param string $key, chave para fazer o bind do parâmetro
+     * @param string $value, valor para ser atribuido a chave
+     * 
+     * @return void
+     */
     private function setParam($statment, $key, $value)
     {
         $statment->bindParam($key, $value);    
     }
 
-    // método que executa a instrução sql e retorna seu resultado
-    private function queryCommand(string $rawQuery, $params = [])
+    /**
+     * Executa a instrução sql de fato e retorna o estado da conexão
+     * 
+     * @param string $rawQuery, query crua
+     * @param array $params, parâmetros para o bindparam
+     * 
+     * @return PDO
+     */
+    private function queryCommand($rawQuery, $params = [])
     {
         $stmt = $this->conn->prepare($rawQuery);
         $this->setParams($stmt, $params);
@@ -45,7 +75,17 @@ class Database extends PDO
         return $stmt;
     }
 
-    // método que executa a instrução sql, os parametros são: a query crua e os elementos para bind 
+    /**
+     * Chama o método queryCommand e verifica se foi retornado algum erro durante a execução
+     * 
+     * @param string $rawQuery, query crua
+     * @param array $params, parâmetros para o bindparam
+     * 
+     * @return PDO::hasError
+     * or 
+     * @return PDO::fetchAll => 'PDO::FETCH_ASSOC'
+     * 
+     */
     public function execQuery(string $rawQuery, $params = [])
     {
         $stmt = $this->queryCommand($rawQuery, $params);
@@ -57,7 +97,15 @@ class Database extends PDO
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // método que verifica se a instrução retornou algum erro
+    /**
+     * Verifica se a consulta retornou algum erro
+     * 
+     * @param PDO $statment, estado atual da conexão
+     * 
+     * @return string => com erro
+     * or
+     * @return false => sem erro
+     */
     private function hasError($statment)
     {
         $stmt = $statment->errorInfo();

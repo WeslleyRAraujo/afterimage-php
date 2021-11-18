@@ -6,8 +6,12 @@ use Afterimage\Core\Router;
 
 $route = new Router();
 
+// Declaração padrão de rota
 $route->get('/', 'App\Controller\HomeController:index');
-$route->get('/login', 'App\Controller\LoginController:index');
-$route->get('/login/exit', 'App\Controller\LoginController:exit');
 
-$route->post('/login/auth', 'App\Controller\LoginController:auth');
+
+// As rotas também podem ser declaradas da forma abaixo, recomendado para agrupamento de rotas
+$route
+    ->get('/message', 'App\Controller\HomeController:json')
+    ->post('/message', 'App\Controller\HomeController:json');
+

@@ -22,7 +22,7 @@ spl_autoload_register(function(string $file){
     }
 });
 
-include_once __DIR__ . "/core/functions/view.php";
+include_once __DIR__ . "/core/functions/common.php";
 
 (new Afterimage\Core\Session);
 (new Afterimage\Core\EnvReader())->load();

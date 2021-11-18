@@ -1,10 +1,10 @@
 <?php
-
 /**
+ * Classe responsável pelas atividades de sessão
  * 
- * CLASSE DO CORE EM CONSTRUÇÃO
- * 
+ * @author Weslley Araujo (WeslleyRAraujo)
  */
+
 namespace Afterimage\Core;
 
 class Session
@@ -16,9 +16,17 @@ class Session
         }
     }
 
-    // seta os valores de sessão, recebe um array como parâmetro
+    /**
+     * Cria novos valores de sessão
+     * 
+     * @param array $sessionArr, chaves e valores para criar índices na sessão
+     * 
+     * @throws Exception
+     * or
+     * @return void
+     */
     public static function set($sessionArr = [])
-    {   
+    {  
         if(count($sessionArr) == 0) {
             throw new Exception("A sessão não pode ser criada. Parâmetros = 0"); die();
         }
@@ -32,23 +40,34 @@ class Session
         }
     }
 
-    public function get($sessionValue)
+    /**
+     * Retorna os os valores de determinado item de sessão
+     * 
+     * @param string $session, chave da sessão a ser consultada
+     * 
+     * @return string|int|float|bool
+     * or 
+     * @return false
+     */
+    public static function getValue($session)
     {
-        foreach($sessionValue as $key => $value) {
-            if(isset($_SESSION[$key]) && $_SESSION[$key] === $value) {
-                return true;
-            } else {
-                return false;
-            }
+        if(isset($_SESSION[$session])) {
+            return $_SESSION[$session];
+        } else {
+            return false;
         }
     }
 
-    // mata todas a sessões, recomendação diretamente do manual do PHP 
-    // https://www.php.net/manual/pt_BR/function.session-destroy.php
+    /**
+     * mata todas a sessões, recomendação diretamente do manual do PHP 
+     * https://www.php.net/manual/pt_BR/function.session-destroy.php
+     * 
+     * @return void
+     */
     public static function kill()
     {
         $_SESSION = [];
-        if (ini_get("session.use_cookies")) {
+        if(ini_get("session.use_cookies")) {
             $params = session_get_cookie_params();
             setcookie(session_name(), '', time() - 42000,
                 $params["path"], $params["domain"],

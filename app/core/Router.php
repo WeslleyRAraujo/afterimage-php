@@ -1,4 +1,9 @@
 <?php
+/**
+ * Classe responsável pelo roteamento
+ * 
+ * @author Weslley Araujo (WeslleyRAraujo)
+ */
 
 namespace Afterimage\Core;
 use Afterimage\Core\Http;
@@ -6,92 +11,172 @@ use Exception;
 
 class Router
 {
-    // salva as rotas get
     private $getRoutes = [];
-
-    // salva as rotas post
     private $postRoutes = [];
-
-    // middleware validator
-    private $hasPermission;
 
     public function __destruct()
     {
         $this->hasRoute();
     }
 
-    // método que faz a chamada do controlador quando a requisição é do tipo GET
+    /**
+     * adiciona mais um índice em @var this->getRoutes
+     * 
+     * @param string $route, rota a ser adicionada
+     */
+    public function feedGetRoute($route)
+    {
+        array_push($this->getRoutes, $route);
+    }
+
+    /**
+     * adiciona mais um índice em @var this->postRoutes
+     * 
+     * @param string $route, rota a ser adicionada
+     */
+    public function feedPostRoute($route)
+    {
+        array_push($this->postRoutes, $route);
+    }
+
+    /**
+     * Faz a chamada do controlador 
+     * quando a rota for declarada pelo método GET
+     * 
+     * @param string $route, rota
+     * @param string $controller, controlador + método, separados por ':'
+     * 
+     * @return this
+     */
     public function get(string $route, string $controller)
     {
-
         if(Http::requestType() === 'GET') {
 
+            // caso o primeiro caractere da rota seja '/' será removido
             if(substr($route, 0, 1) === "/" && strlen($route) > 1) {
                 $route = substr($route, 1);
             }
-            
-            $url = str_replace(".php", "", $_REQUEST['url'] ?? '/'); 
 
-            // inserindo mais um índice ao $this->getRoutes
-            array_push($this->getRoutes, $route);
-    
-            if($route === $url) {
-                if(!$this->checkController($controller)) {
-                    die();
-                }
-                unset($_GET);
-            }
+            $controller = explode(":", $controller);
+            $class = $controller[0];
+            $method = $controller[1];
+
+            $this->feedGetRoute($route);
+
+            $this->executeRoute($route, $class, $method);
         }
         return $this;
     }
     
-    // método que faz a chamada do controlador quando a requisição é do tipo POST
+    /**
+     * Faz a chamada do controlador 
+     * quando a rota for declarada pelo método POST
+     * 
+     * @param string $route, rota
+     * @param string $controller, controlador + método, separados por ':'
+     * 
+     * @return this
+     */
     public function post(string $route, string $controller)
     {
-        if(Http::requestType() == 'POST') {
+        if(Http::requestType() === 'POST') {
 
-            if(substr($route, 0, 1) === "/") {
+            // caso o primeiro caractere da rota seja '/' será removido
+            if(substr($route, 0, 1) === "/" && strlen($route) > 1) {
                 $route = substr($route, 1);
             }
 
-            $url = str_replace(".php", "", $_REQUEST['url'] ?? '/');
+            $controller = explode(":", $controller);
+            $class = $controller[0];
+            $method = $controller[1];
 
-            // inserindo mais um índice ao $this->getRoutes
-            array_push($this->postRoutes, $route);
-    
-            if($route === $url) {
-                if(!$this->checkController($controller)) {
-                    die();
-                }
-                unset($_POST);
-            }
+            $this->feedPostRoute($route);
+
+            $this->executeRoute($route, $class, $method);
         }
+        return $this;
     }   
 
-    // esse método verifica se o controlador e o método existem;
-    private function checkController(string $controller)
+    /**
+     * Verifica se o controlador existe
+     * 
+     * @param string $class, classe
+     * 
+     * @return bool
+     */
+    private function checkController($class)
     {
-        $controller = explode(":", $controller);
-
-        $class = $controller[0];
-        $method = $controller[1];
-
         if(class_exists($class)) {
-            call_user_func([$class, $method]);
             return true;
         } else {
             return false;
         }
     }
 
-    // esse método tem a função de verificar se url acessada está contida no atributo $this->getRoutes ou em $this->postRoutes
-    // caso não esteja será retornado a página de erro configurada no arquivo .env
+    /**
+     * Checa se a URL tem a extensão .php 
+     * 
+     * @return bool
+     */
+    private function dotPhp()
+    {
+        if(@mb_strpos($_REQUEST['url'], '.php') || mb_strpos($_SERVER['REQUEST_URI'], '.php'))
+        {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     *  executa o callback caso a url esteja em @var this->getRoutes ou em @var this->postRoutes
+     * 
+     * @param string $route, rota 
+     * @param string $class, classe do callback
+     * @param string $method, método do callback
+     * 
+     * @return void 
+     */
+    private function executeRoute($route, $class, $method)
+    {
+        // url atual
+        $url = str_replace(".php", "", $_REQUEST['url'] ?? '/');
+
+        // só vai chamar o callback da rota estiver sendo acessada
+        if($route === $url) {
+            if(!$this->checkController($class)) {
+                die("O Controlador {$class} não existe.");
+            }
+
+            // caso a url tenha a ocorrência '.php' vai retornar um staus 404
+            if($this->dotPhp()) {
+                Http::forceStatus(404, [
+                    'title' => 'Página não encontrada',
+                    'error' => 404,
+                    'message' => 'Houston, we have a problem.'
+                ]);
+            }
+
+            call_user_func([$class, $method]);
+        }
+    }
+
+    /**
+     * Verifica se a url acessada existe em @var this->getRoutes ou @var this->postRoutes
+     * caso não será retornada uma página de erro com status 404
+     * 
+     * @return void
+     */
     private function hasRoute()
     {
         $url = str_replace(".php", "", $_REQUEST['url'] ?? '/');
 
         if(!in_array(strval($url), $this->getRoutes) && !in_array(strval($url), $this->postRoutes)) {
-            Http::forceStatus(404);
+            Http::forceStatus(404, [
+                'title' => 'Página não encontrada',
+                'error' => 404,
+                'message' => 'Houston, we have a problem.'
+            ]);
         }
     }
 }
