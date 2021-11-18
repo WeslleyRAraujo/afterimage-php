@@ -45,20 +45,12 @@ A estrutura básica do controlador tem a seguinte interface:
 
 arquivo **/app/controller/HomeController.php**
 ```php
-namespace App\Controller; // namespace da aplicação
+namespace App\Controller;
 
-use Afterimage\Core\Controller; // core do controlador
-
-// nome do controlador
 class HomeController
 {
-	/**
-	* o método index retorna a view home
-	* o arquivo 'home' está localizado em /app/views/home.php
-	*/
 	public function index()
 	{
-		// a função view pode receber o nome da view + variáveis de escape em forma de array
 		return view('home',  ['title'  =>  'Home']);
 	}
 }

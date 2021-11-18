@@ -6,9 +6,6 @@
  */
 namespace App\Controller;
 
-use Afterimage\Core\Http;
-use Afterimage\Core\Sentinel;
-
 class HomeController
 {
     /**
