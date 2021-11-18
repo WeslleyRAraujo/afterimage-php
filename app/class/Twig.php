@@ -22,7 +22,7 @@ class Twig
      * or
      * @throws Exception
      */
-    public function view($view, $args = [])
+    public static function view($view, $args = [])
     {
         $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../views/');
         $twig = new \Twig\Environment($loader);
