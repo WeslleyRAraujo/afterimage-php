@@ -156,8 +156,10 @@ class Router
                     'message' => 'Houston, we have a problem.'
                 ]);
             }
-
-            call_user_func([$class, $method]);
+            
+            // por que '@' no callback?
+            // alguns serviços de hospedagens irão estourar um erro nessa linha, mesmo o callback sendo realizado.
+            @call_user_func([$class, $method]);
         }
     }
 
