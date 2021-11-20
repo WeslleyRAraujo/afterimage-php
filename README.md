@@ -10,51 +10,10 @@ O Afterimage é um facilitador para trabalhar com rotas de uma forma super simpl
 ## Estrutura de Diretórios
 O Projeto possui dois diretórios, o **'/app'** onde fica armazenado toda a lógica da aplicação e o **'/public'** que fica responsável pelo conteúdo visível ao usuário.
 <br>
-## Iniciando o projeto
 
-Há várias maneiras de iniciar o projeto, uma delas é executando o arquivo **index.php** navegando pela url até o diretório public ou configurando o arquivo httpd.conf para iniciar no diretório **/public**
+## Mini Doc
+Conheça o uso básico das rotas e controladores nesse link: <https://github.com/WeslleyRAraujo/afterimage-doc>
 
-## Rotas
-
-Para criar uma rota é necessário definir um controlador também, como no template de inicialização do projeto.
-<br>
-
-arquivo **/public/index.php**
-```php
-// arquivo que tem como função chamar os includes entre outras depências projeto
-include_once "./bootstrap.php";
-
-// classe do Roteador
-use Afterimage\Core\Router;
-
-$route = new Router();
-
-// na rota principal será executado o método index do controlador 
-// HomeController que tem a função de retornar a view da paǵina principal
-// ----------------------------------------------------------------------
-// o 2º parâmetro do método get sempre irá seguir a seguinte ordem:
-// 'Path\To\Controller:method'
-
-$route->get('/', 'App\Controller\HomeController:index');
-```
-
-## Controlador
-
-A estrutura básica do controlador tem a seguinte interface:
-<br>
-
-arquivo **/app/controller/HomeController.php**
-```php
-namespace App\Controller;
-
-class HomeController
-{
-	public function index()
-	{
-		return view('home',  ['title'  =>  'Home']);
-	}
-}
-```
 ## Views [Twig template Engine]
 
 As views estão localizadas em **/app/views**
