@@ -20,7 +20,7 @@ function createController($name)
     // má indentação proposital
     $content = "<?php
 
-namespace App;
+namespace App\Controller;
 
 class {$name}
 {
