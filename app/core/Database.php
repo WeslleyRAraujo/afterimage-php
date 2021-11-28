@@ -21,7 +21,8 @@ class Database extends PDO
     public function __construct()
     {
         $this->conn = new PDO(
-            'pgsql:host='. $_ENV['HOST_CONNECTION'] .';
+            $_ENV['DRIVER_CONNECTION'].'
+            :host='. $_ENV['HOST_CONNECTION'] .';
             port='. $_ENV['PORT_CONNECTION'] .';
             dbname='. $_ENV['DBNAME_CONNECTION'] .';
             user='. $_ENV['USERNAME_CONNECTION'] .';
