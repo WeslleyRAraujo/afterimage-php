@@ -1,31 +1,39 @@
 html {
     font-family: 'Inconsolata', monospace;
     font-family: 'Raleway', sans-serif;
-    background-color: #222;
+    background-color: #495057;
     color: #fff;
 }
 
 a {
+    -webkit-user-select: none;  
+    -moz-user-select: none;     
+    -ms-user-select: none;      
+    user-select: none;  
     align-items: center;
     align-self: center;
     text-align: center;
     transition: 0.5s;
-    color: #fff;
+    color: #F8F9FA;
     text-decoration: none;
-    border-bottom: 2px solid #222;
+    border-bottom: 2px solid #212529;
 }
 
 a:hover {
-    border-bottom: 2px solid #6ee1f5;
+    border-bottom: 2px solid #F8F9FA;
 }
 
 #list-line li {
+    -webkit-user-select: none;  
+    -moz-user-select: none;     
+    -ms-user-select: none;      
+    user-select: none;  
     transition: 0.5s;
     font-size: 24px;
     display: inline;
     margin-left: 20px;
     margin-right: 20px;
-    border-bottom: 2px solid #222;
+
 }
 
 #list-line li:hover {
@@ -37,14 +45,22 @@ a:hover {
 }
 
 #main-title {
-    color: #6ee1f5;
+    color: #F8F9FA;
     letter-spacing: 6px;
     font-size: 96px;
+    -webkit-user-select: none;  
+    -moz-user-select: none;     
+    -ms-user-select: none;      
+    user-select: none;  
 }
 
 #main-title, #list-line {
     margin-top: 25vh;
-    margin-bottom: 25vh;
+    margin-bottom: 20vh;
     text-align: center;
     align-items: center;
+}
+
+.introduction {
+    font-size: 24px !important;
 }
