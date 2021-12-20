@@ -120,8 +120,7 @@ class Router
      */
     private function dotPhp()
     {
-        if(@mb_strpos($_REQUEST['url'], '.php') || mb_strpos($_SERVER['REQUEST_URI'], '.php'))
-        {
+        if(mb_strpos($_SERVER['REQUEST_URI'], '.php')){
             return true;
         } else {
             return false;
@@ -147,7 +146,7 @@ class Router
             if(!$this->checkController($class)) {
                 die("O Controlador {$class} não existe.");
             }
-
+            
             // caso a url tenha a ocorrência '.php' vai retornar um staus 404
             if($this->dotPhp()) {
                 Http::forceStatus(404, [
@@ -156,10 +155,9 @@ class Router
                     'message' => 'Houston, we have a problem.'
                 ]);
             }
-            
-            // por que '@' no callback?
-            // alguns serviços de hospedagens irão estourar um erro nessa linha, mesmo o callback sendo realizado.
-            @call_user_func([$class, $method]);
+
+            $classCall = new $class();
+            call_user_func([$classCall, $method]);
         }
     }
 

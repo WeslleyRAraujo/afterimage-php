@@ -1,30 +1,35 @@
 <?php
 
+require_once __DIR__ . "/core/EnvReader.php";
+require_once __DIR__ . "/core/functions/common.php";
+
+(new Afterimage\Core\EnvReader())->load();
+
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 spl_autoload_register(function(string $file){
     
     $parts = explode('\\', $file);
     $class = end($parts);
 
-    if(file_exists(__DIR__ . "/core/{$class}.php")){
-        require_once __DIR__ . "/core/{$class}.php";
-    }
-    elseif(file_exists(__DIR__ . "/class/{$class}.php")){
-        require_once __DIR__ . "/class/{$class}.php";
-    }
-    elseif(file_exists(__DIR__ . "/controller/{$class}.php")){
-        require_once __DIR__ . "/controller/{$class}.php";
-    }
-    elseif(file_exists(__DIR__ . "/models/{$class}.php")){
-        require_once __DIR__ . "/models/{$class}.php";
-    }
-    else{
-        throw new Exception(sprintf("Não poi possível incluir o arquivo %s", $class));
+    // treatment for commas and spaces
+    $includeCommas = explode(',', $_ENV['LOADER_FOLDERS']);
+    $includesSpace = implode(' ', $includeFix);
+    $includes = explode(' ', $includesSpace);
+
+    foreach($includes as $include) {
+        $file = __DIR__ . "/" . $include . "/" . $class . ".php";
+        try {
+            if(file_exists($file)) {
+                require_once $file;
+            }
+        } catch (Exception $e) {
+            throw new Exception(sprintf("Não foi possível incluir o arquivo %s", $file));
+        }
     }
 });
 
-include_once __DIR__ . "/core/functions/common.php";
-
 (new Afterimage\Core\Session);
-(new Afterimage\Core\EnvReader())->load();
 
 ?>
