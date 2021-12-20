@@ -5,8 +5,10 @@ require_once __DIR__ . "/core/functions/common.php";
 
 (new Afterimage\Core\EnvReader())->load();
 
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
+if($_ENV['DISPLAY_ERRORS'] == 'yes') {
+    ini_set('display_errors', 1);
+    error_reporting(E_ALL);
+}
 
 spl_autoload_register(function(string $file){
     
@@ -15,7 +17,7 @@ spl_autoload_register(function(string $file){
 
     // treatment for commas and spaces
     $includeCommas = explode(',', $_ENV['LOADER_FOLDERS']);
-    $includesSpace = implode(' ', $includeFix);
+    $includesSpace = implode(' ', $includeCommas);
     $includes = explode(' ', $includesSpace);
 
     foreach($includes as $include) {
