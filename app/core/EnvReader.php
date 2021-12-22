@@ -1,6 +1,6 @@
 <?php
 /**
- * Classe responsável pela leitura do arquivo /app/config/.env 
+ * Class responsible for reading file /app/config/.env
  *  
  * @author Weslley Araujo (WeslleyRAraujo)
  */
@@ -12,7 +12,7 @@ class EnvReader
     const ENV_PATH = __DIR__ . '/../config/.env';
 
     /**
-     * checa se o arquivo .env existe
+     * check if .env exists
      * 
      * @throws InvalidArgumentException
      */
@@ -25,7 +25,7 @@ class EnvReader
     }
 
     /**
-     * Carrega os atributos para $_ENV
+     * load the keys and values for the superglobal $_ENV
      * 
      * @throws RuntimeException
      * @return void

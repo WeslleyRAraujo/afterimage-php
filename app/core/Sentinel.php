@@ -1,6 +1,6 @@
 <?php
 /**
- * Classe responsável por controlar o acesso
+ * Class for access control
  * 
  * @author Weslley Araujo (WeslleyRAraujo)
  */
@@ -12,11 +12,11 @@ use Afterimage\Core\Session;
 class Sentinel
 {
     /**
-     * Só autoriza o código continuar caso a sessão atenda os requisitos
+     * continue the execution case the connection meet the requirements
      *
-     * @param $session, chave da sessão
-     * @param $value, valor da sessão
-     * @param $redirect, rota de redirecionamento caso $session[$value] não atenda os requisitos
+     * @param $session, session key
+     * @param $value, session value
+     * @param $redirect, route for redirect case $session[$value] don't meet the requirements
      * 
      * @return true|void
      */

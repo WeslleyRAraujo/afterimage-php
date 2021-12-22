@@ -1,6 +1,6 @@
 <?php
 /**
- * Controlador exemplo da rota /
+ * Controller example 
  * 
  * @author Weslley Araujo (WeslleyRAraujo)
  */
@@ -8,11 +8,6 @@ namespace App\Controller;
 
 class HomeController
 {
-    /**
-     * Retorna view home localizada em /app/views/home.twig
-     * 
-     * @return Twig::display
-     */
     public function index()
     {
         return view('home', [
@@ -21,9 +16,6 @@ class HomeController
         ]);
     }
 
-    /**
-     * Mostra um json
-     */
     public function json()
     {
         echo json_encode([

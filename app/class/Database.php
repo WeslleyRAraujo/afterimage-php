@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Classe responsável pela conexão com o banco de dados e execução das instruções
+ * Class for database connection
  *  
  * @author Weslley Araujo (WeslleyRAraujo)
  */
 
-namespace Afterimage\Core;
+namespace App\Classes;
 use Afterimage\Core\EnvReader;
 use \PDO;
 
@@ -16,7 +16,7 @@ class Database extends PDO
     private $conn;
 
     /**
-     * Seta as configurações de conexão com o banco de dados
+     * Set the database connection
      */
     public function __construct()
     {
@@ -31,10 +31,10 @@ class Database extends PDO
     }
     
     /**
-     * recebe o statment e os parâmetros para criar o bindParam dos argumentos
+     * get the statment and parameters for call the method that make the bindParam
      * 
-     * @param PDO $stmt, estado atual da conexão 
-     * @param array $parameteres, parâmetros para fazer o bindParam
+     * @param PDO $stmt, statment of connection
+     * @param array $parameteres, parameters for bindParam
      * 
      * @return void
      */
@@ -47,11 +47,11 @@ class Database extends PDO
     }
 
     /**
-     * realiza o bindParam de fato
+     * realize the bindParam
      * 
-     * @param PDO $statment, estado atual da conexão
-     * @param string $key, chave para fazer o bind do parâmetro
-     * @param string $value, valor para ser atribuido a chave
+     * @param PDO $statment, statment of connection
+     * @param string $key
+     * @param string $value
      * 
      * @return void
      */
@@ -61,10 +61,10 @@ class Database extends PDO
     }
 
     /**
-     * Executa a instrução sql de fato e retorna o estado da conexão
+     * Execute query and return the connection status
      * 
-     * @param string $rawQuery, query crua
-     * @param array $params, parâmetros para o bindparam
+     * @param string $rawQuery
+     * @param array $params
      * 
      * @return PDO
      */
@@ -77,10 +77,10 @@ class Database extends PDO
     }
 
     /**
-     * Chama o método queryCommand e verifica se foi retornado algum erro durante a execução
+     * call $this->queryCommand and check if returned error during connection
      * 
-     * @param string $rawQuery, query crua
-     * @param array $params, parâmetros para o bindparam
+     * @param string $rawQuery
+     * @param array $params
      * 
      * @return PDO::hasError
      * or 
@@ -99,13 +99,13 @@ class Database extends PDO
     }
 
     /**
-     * Verifica se a consulta retornou algum erro
+     * check if query returned a error
      * 
-     * @param PDO $statment, estado atual da conexão
+     * @param PDO $statment
      * 
-     * @return string => com erro
+     * @return string => has error
      * or
-     * @return false => sem erro
+     * @return false => no error
      */
     private function hasError($statment)
     {

@@ -5,11 +5,6 @@ require_once __DIR__ . "/core/functions/common.php";
 
 (new Afterimage\Core\EnvReader())->load();
 
-if($_ENV['DISPLAY_ERRORS'] == 'yes') {
-    ini_set('display_errors', 1);
-    error_reporting(E_ALL);
-}
-
 spl_autoload_register(function(string $file){
     
     $parts = explode('\\', $file);
@@ -31,6 +26,12 @@ spl_autoload_register(function(string $file){
         }
     }
 });
+
+if($_ENV['DISPLAY_ERRORS'] == 'yes') {
+    \App\Classes\Whoops::run();
+} else {
+    ini_set('display_errors', 0);
+}
 
 (new Afterimage\Core\Session);
 

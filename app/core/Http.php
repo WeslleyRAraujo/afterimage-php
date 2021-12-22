@@ -1,6 +1,6 @@
 <?php
 /**
- * Classe responsável por atividades do HTTP 
+ * Simple HTTP Class 
  *  
  * @author Weslley Araujo (WeslleyRAraujo)
  */
@@ -11,7 +11,7 @@ class Http
 {
 
     /**
-     * Verifica qual é o tipo de requisição
+     * Check the request type GET|POST
      * 
      * @return string 
      */
@@ -21,10 +21,10 @@ class Http
     } 
 
     /**
-     * Força a página a mostrar qualquer status HTTP
+     * Force the page to load any HTTP status 
      * 
-     * @param int $status, status que será exibido (404, 403, 200, etc..)
-     * @param array $args, argumentos que podem ser passados para o layout que será renderizado
+     * @param int $status, status that be returned (404, 403, 200, etc..)
+     * @param array $args, args for render layout
      * 
      * @throws Exception 
      * @return void
@@ -34,23 +34,24 @@ class Http
         if(is_int($status)) {
             http_response_code($status);
             if(!is_file(__DIR__ . "/../views/{$_ENV['ERROR_PAGE']}")) {
-                throw new Exception("A view ERROR_PAGE não foi encontrada."); exit();
+                throw new \Exception("A view ERROR_PAGE não foi encontrada."); exit();
             }
 
-            // as variáveis dinâmicas geradas poderão ser utilizadas no arquivo de erro
+            // dynamic variables for use in error file
             if(count($args) > 0) {
                 foreach($args as $key => $value) {
                     $$key = $value;
                 }
             }
+
             include_once __DIR__ . "/../views/{$_ENV['ERROR_PAGE']}";
             die();
         }
-        throw new Exception("O status {$status} não é valido.", 1);
+        throw new \Exception("O status {$status} não é valido.", 1);
     }
 
     /**
-     * Trás os parãmetros passados via post ou get e retorna um array
+     * catch the parameters passed in post or get and return array
      * 
      * @return array $data
      */

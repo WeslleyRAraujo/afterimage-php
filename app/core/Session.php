@@ -1,6 +1,6 @@
 <?php
 /**
- * Classe responsável pelas atividades de sessão
+ * Session Class
  * 
  * @author Weslley Araujo (WeslleyRAraujo)
  */
@@ -17,9 +17,9 @@ class Session
     }
 
     /**
-     * Cria novos valores de sessão
+     * Create new values in $_SESSION
      * 
-     * @param array $sessionArr, chaves e valores para criar índices na sessão
+     * @param array $sessionArr, keys and values for create indexes in $_SESSION
      * 
      * @throws Exception
      * or
@@ -28,22 +28,22 @@ class Session
     public static function set($sessionArr = [])
     {  
         if(count($sessionArr) == 0) {
-            throw new Exception("A sessão não pode ser criada. Parâmetros = 0"); die();
+            throw new \Exception("A sessão não pode ser criada. Parâmetros = 0"); die();
         }
 
         try {
             foreach($sessionArr as $key => $value) {
                 $_SESSION[$key] = $value;
             }
-        } catch(Exception $e) {
-            throw new Exception("Erro na criação da sessão, formato do array inválido."); die();
+        } catch(\Exception $e) {
+            throw new \Exception("Erro na criação da sessão, formato do array inválido."); die();
         }
     }
 
     /**
-     * Retorna os os valores de determinado item de sessão
+     * return the specify value of index in $_SESSION
      * 
-     * @param string $session, chave da sessão a ser consultada
+     * @param string $session, session key
      * 
      * @return string|int|float|bool
      * or 
@@ -59,7 +59,7 @@ class Session
     }
 
     /**
-     * mata todas a sessões, recomendação diretamente do manual do PHP 
+     * Kill as sessions 
      * https://www.php.net/manual/pt_BR/function.session-destroy.php
      * 
      * @return void

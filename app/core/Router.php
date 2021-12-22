@@ -1,13 +1,12 @@
 <?php
 /**
- * Classe responsável pelo roteamento
+ * Router Class
  * 
  * @author Weslley Araujo (WeslleyRAraujo)
  */
 
 namespace Afterimage\Core;
 use Afterimage\Core\Http;
-use Exception;
 
 class Router
 {
@@ -20,31 +19,31 @@ class Router
     }
 
     /**
-     * adiciona mais um índice em @var this->getRoutes
+     * add one more index in @var this->getRoutes
      * 
-     * @param string $route, rota a ser adicionada
+     * @param string $route, route to be redirect
      */
-    public function feedGetRoute($route)
+    public function feedGetRoute(string $route)
     {
         array_push($this->getRoutes, $route);
     }
 
     /**
-     * adiciona mais um índice em @var this->postRoutes
+     * add one more index @var this->postRoutes
      * 
-     * @param string $route, rota a ser adicionada
+     * @param string $route, route to be redirect
      */
-    public function feedPostRoute($route)
+    public function feedPostRoute(string $route)
     {
         array_push($this->postRoutes, $route);
     }
 
     /**
-     * Faz a chamada do controlador 
-     * quando a rota for declarada pelo método GET
+     * make controller call
+     * when route method is GET
      * 
-     * @param string $route, rota
-     * @param string $controller, controlador + método, separados por ':'
+     * @param string $route
+     * @param string $controller, controller + method, separated by ':'
      * 
      * @return this
      */
@@ -52,7 +51,7 @@ class Router
     {
         if(Http::requestType() === 'GET') {
 
-            // caso o primeiro caractere da rota seja '/' será removido
+            // case the first char is '/' will be removed
             if(substr($route, 0, 1) === "/" && strlen($route) > 1) {
                 $route = substr($route, 1);
             }
@@ -69,11 +68,11 @@ class Router
     }
     
     /**
-     * Faz a chamada do controlador 
-     * quando a rota for declarada pelo método POST
+     * make controller call
+     * when route method is POST
      * 
-     * @param string $route, rota
-     * @param string $controller, controlador + método, separados por ':'
+     * @param string $route
+     * @param string $controller, controller + method, separated by ':'
      * 
      * @return this
      */
@@ -81,7 +80,7 @@ class Router
     {
         if(Http::requestType() === 'POST') {
 
-            // caso o primeiro caractere da rota seja '/' será removido
+            // case the first char is '/' will be removed
             if(substr($route, 0, 1) === "/" && strlen($route) > 1) {
                 $route = substr($route, 1);
             }
@@ -98,9 +97,9 @@ class Router
     }   
 
     /**
-     * Verifica se o controlador existe
+     * check if controller exists
      * 
-     * @param string $class, classe
+     * @param string $class
      * 
      * @return bool
      */
@@ -114,7 +113,7 @@ class Router
     }
 
     /**
-     * Checa se a URL tem a extensão .php 
+     * check if URL have the extension .php 
      * 
      * @return bool
      */
@@ -128,26 +127,25 @@ class Router
     }
 
     /**
-     *  executa o callback caso a url esteja em @var this->getRoutes ou em @var this->postRoutes
+     *  execute the callback case the url is in @var this->getRoutes or @var this->postRoutes
      * 
-     * @param string $route, rota 
-     * @param string $class, classe do callback
-     * @param string $method, método do callback
+     * @param string $route
+     * @param string $class
+     * @param string $method
      * 
      * @return void 
      */
-    private function executeRoute($route, $class, $method)
+    private function executeRoute(string $route, string $class, string $method)
     {
-        // url atual
         $url = str_replace(".php", "", $_REQUEST['url'] ?? '/');
 
-        // só vai chamar o callback da rota estiver sendo acessada
+        // only execute callback if url is being acessed
         if($route === $url) {
             if(!$this->checkController($class)) {
                 die("O Controlador {$class} não existe.");
             }
             
-            // caso a url tenha a ocorrência '.php' vai retornar um staus 404
+            // if url have '.php' the status HTTP 404 is returned
             if($this->dotPhp()) {
                 Http::forceStatus(404, [
                     'title' => 'Página não encontrada',
@@ -162,8 +160,8 @@ class Router
     }
 
     /**
-     * Verifica se a url acessada existe em @var this->getRoutes ou @var this->postRoutes
-     * caso não será retornada uma página de erro com status 404
+     * verify if the url that is being acessed exists in @var this->getRoutes or @var this->postRoutes
+     * case not will be returned a error page 404
      * 
      * @return void
      */

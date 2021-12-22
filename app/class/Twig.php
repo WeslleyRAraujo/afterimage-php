@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Classe responsável por retornar a view utilizando o Twig
- * Atenção: todos os arquivos no diretório /app/views precisam terminar com a extensão '.twig' para funcionar com a template engine
+ * Class that return a view using Twig Template Engine
+ * Caution: all files in /app/views need have '.twig' extension for working with Template Engine
  * 
  * @author Weslley Araujo (WeslleyRAraujo)
  */
@@ -12,11 +12,11 @@ namespace App\Classes;
 class Twig
 {
     /** 
-     * Cria a view
+     * Create view
      *
-     * @param string $view, o nome da view
-     * @param array $args, argumentos que vão ser passados para criar a view
-     * vide exemplo: https://twig.symfony.com/doc/3.x/intro.html [final da página]
+     * @param string $view, name of view
+     * @param array $args, args that be passed for view
+     * example: https://twig.symfony.com/doc/3.x/intro.html [final of page]
      * 
      * @return Twig::display
      * or
@@ -30,7 +30,7 @@ class Twig
         if(is_file(__DIR__ . "/../views/{$view}.twig")) {
             return $twig->display("{$view}.twig", $args);
         } else {
-            throw new Exception("A view {$view} não existe");
+            throw new \Exception("A view {$view} não existe");
         }
     }
 }

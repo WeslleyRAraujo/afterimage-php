@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Arquivo de funções comuns
+ * common funcions
  * 
  * @author Weslley Araujo (WeslleyRAraujo)
  */
@@ -10,10 +10,10 @@ use App\Classes\Twig;
 if(!function_exists('view')) {
 
     /**
-     * Retorna a View pelo Twig
+     * return the view by twig
      * 
-     * @param string $view, nome da view sem a extensão
-     * @param array $args, variáveis que serão passadas
+     * @param string $view, name of view without extension
+     * @param array $args, vars that can be passed
      * 
      * @return Twig::view
      */
