@@ -5,7 +5,7 @@
  * @author Weslley Araujo (WeslleyRAraujo)
  */
 
-namespace Afterimage\Core;
+namespace Afterimage;
 
 class EnvReader
 {

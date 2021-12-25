@@ -5,9 +5,9 @@
  * @author Weslley Araujo (WeslleyRAraujo)
  */
 
-namespace Afterimage\Core;
+namespace Afterimage;
 
-use Afterimage\Core\Session;
+use Afterimage\Session;
 
 class Sentinel
 {

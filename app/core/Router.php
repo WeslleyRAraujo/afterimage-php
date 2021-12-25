@@ -5,8 +5,8 @@
  * @author Weslley Araujo (WeslleyRAraujo)
  */
 
-namespace Afterimage\Core;
-use Afterimage\Core\Http;
+namespace Afterimage;
+use Afterimage\Http;
 
 class Router
 {

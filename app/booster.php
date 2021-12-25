@@ -3,7 +3,7 @@
 require_once __DIR__ . "/core/EnvReader.php";
 require_once __DIR__ . "/core/functions/common.php";
 
-(new Afterimage\Core\EnvReader())->load();
+(new Afterimage\EnvReader())->load();
 
 spl_autoload_register(function(string $file){
     
@@ -33,6 +33,6 @@ if($_ENV['DISPLAY_ERRORS'] == 'yes') {
     ini_set('display_errors', 0);
 }
 
-(new Afterimage\Core\Session);
+(new Afterimage\Session);
 
 ?>
