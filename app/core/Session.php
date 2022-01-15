@@ -59,7 +59,7 @@ class Session
     }
 
     /**
-     * Kill as sessions 
+     * Kill all sessions 
      * https://www.php.net/manual/pt_BR/function.session-destroy.php
      * 
      * @return void
@@ -79,5 +79,15 @@ class Session
         foreach($_SESSION as $key) {
             unset($_SESSION[$key]);
         }
+    }
+    
+    /**
+     * unset the specify session
+     *
+     * @return void
+     */
+    public static function unset($session)
+    {
+        unset($_SESSION[$session]);
     }
 }
