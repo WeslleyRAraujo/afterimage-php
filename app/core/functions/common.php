@@ -8,7 +8,6 @@
 use App\Classes\Twig;
 
 if(!function_exists('view')) {
-
     /**
      * return the view by twig
      * 
