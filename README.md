@@ -1,8 +1,8 @@
 # Afterimage
-Afterimage é um pequeno, mini, minusculo projeto para utilização de rotas em PHP.
+Afterimage é um pequeno projeto em php para utilização de rotas
 
 # Introdução
-O Afterimage é um facilitador para trabalhar com rotas de uma forma super simples aplicando o conceito de URL Amigável.
+O Afterimage é um facilitador para trabalhar com rotas de uma forma super simples.
 
 **Warning:** O Projeto ainda está em desenvolvimento, então quando se deparar com um  bug sugira correção ou melhoria sempre que puder = )  
 
@@ -27,4 +27,4 @@ As views estão localizadas em **/app/views**
 
 As configurações da aplicação podem ser alteradas ou adicionadas no arquivo **/app/config/.env**
 
-- *O Afterimage usa o básico para conexão com o banco de dados e arquivo padrão em caso de erros.*
+- *O diretório /app/class são para classes de depêndencias que não estão amarradas ao core como a Twig e do Whoops, a Database é opcional.*
