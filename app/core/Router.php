@@ -10,8 +10,10 @@ use Afterimage\Http;
 
 class Router
 {
-    private $getRoutes = [];
-    private $postRoutes = [];
+    private $getRoutes = []; // get routes
+    private $postRoutes = []; // post routes
+    private $sessionAllowed = []; // routes with session
+    private $switchMethod; // catch the last method acessed 
 
     public function __destruct()
     {
@@ -23,7 +25,7 @@ class Router
      * 
      * @param string $route, route to be redirect
      */
-    public function feedGetRoute(string $route)
+    private function feedGetRoute(string $route)
     {
         array_push($this->getRoutes, $route);
     }
@@ -33,9 +35,18 @@ class Router
      * 
      * @param string $route, route to be redirect
      */
-    public function feedPostRoute(string $route)
+    private function feedPostRoute(string $route)
     {
         array_push($this->postRoutes, $route);
+    }
+
+    /**
+     * add one more index in @var this->sessionAllowed
+     * 
+     */
+    private function feedSession(string $route, string $session, string $value, string $redirect)
+    {
+        $this->sessionAllowed[$route] = "$session:$value:$redirect";
     }
 
     /**
@@ -61,7 +72,7 @@ class Router
             $method = $controller[1];
 
             $this->feedGetRoute($route);
-
+            $this->switchMethod = 'GET';
             $this->executeRoute($route, $class, $method);
         }
         return $this;
@@ -90,7 +101,7 @@ class Router
             $method = $controller[1];
 
             $this->feedPostRoute($route);
-
+            $this->switchMethod = 'POST';
             $this->executeRoute($route, $class, $method);
         }
         return $this;
@@ -167,6 +178,7 @@ class Router
      */
     private function hasRoute()
     {
+        
         $url = str_replace(".php", "", $_REQUEST['url'] ?? '/');
 
         if(!in_array(strval($url), $this->getRoutes) && !in_array(strval($url), $this->postRoutes)) {
@@ -175,6 +187,54 @@ class Router
                 'error' => 404,
                 'message' => 'Houston, we have a problem.'
             ]);
+        }
+
+        $this->checkSession($url);
+    }
+    
+    /**
+     * check if route has been acessed have a session for validate
+     * 
+     * @param string $route, route for validate
+     * 
+     * @return void
+     */
+    private function checkSession(string $route)
+    {
+        if(isset($this->sessionAllowed[$route])) {
+            $verifyStep = explode(':', $this->sessionAllowed[$route]);
+        
+            $session = $verifyStep[0];
+            $sessionValue = $verifyStep[1];
+            $redirect = $verifyStep[2];
+            
+            if($_SESSION[$session] != $sessionValue) {
+                header("location: $redirect");
+            }
+        }
+    }
+
+    /**
+     * create a node between session and route
+     * just allowing if the route meet the requirements
+     * of session value
+     * 
+     * @param string $session, session key
+     * @param string $value, session value
+     * @param string $redirect, case don't meet the application will be redirect for this route
+     * 
+     * @return void
+     */
+    public function session(string $session, string $value, string $redirect) 
+    {
+        switch ($this->switchMethod) {
+            case $this->switchMethod === 'GET':
+                $this->feedSession(end($this->getRoutes), $session, $value, $redirect);
+                break;
+            
+            case $this->switchMethod === 'POST':
+                $this->feedSession(end($this->postRoutes), $session, $value, $redirect);
+                break;
         }
     }
 }

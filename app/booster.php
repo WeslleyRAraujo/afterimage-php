@@ -33,6 +33,8 @@ if($_ENV['DISPLAY_ERRORS'] == 'yes') {
     ini_set('display_errors', 0);
 }
 
-(new Afterimage\Session);
+if(session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
 
 ?>

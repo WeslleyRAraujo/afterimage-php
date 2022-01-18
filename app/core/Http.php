@@ -49,28 +49,4 @@ class Http
         }
         throw new \Exception("O status {$status} não é valido.", 1);
     }
-
-    /**
-     * catch the parameters passed in post or get and return array
-     * 
-     * @return array $data
-     */
-    public static function getResponseData()
-    {
-        if(Http::requestType() == "POST") {
-            $data = [];
-            foreach($_POST as $key => $value) {
-                $data[$key] = $value;
-            }
-            return $data;
-        }
-
-        if(Http::requestType() == "GET") {
-            $data = [];
-            foreach($_GET as $key => $value) {
-                $data[$key] = $value;
-            }
-            return $data;
-        }
-    }
 }
