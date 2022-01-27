@@ -1,30 +1,50 @@
-# Afterimage
-Afterimage é um pequeno projeto em php para utilização de rotas
+# Rotas - Afterimage
 
-# Introdução
-O Afterimage é um facilitador para trabalhar com rotas de uma forma super simples.
-
-**Warning:** O Projeto ainda está em desenvolvimento, então quando se deparar com um  bug sugira correção ou melhoria sempre que puder = )  
-
-
-## Estrutura de Diretórios
-O Projeto possui dois diretórios, o **'/app'** onde fica armazenado toda a lógica da aplicação e o **'/public'** que fica responsável pelo conteúdo visível ao usuário.
+Como posso definir e executar rotas no meu projeto?
+- As rotas são definidas no arquivo **/public/index.php**;
+- As rotas trabalham com os métodos GET e POST.
 <br>
 
-## Mini Doc
-Conheça o uso básico das rotas e controladores nesse link: <https://github.com/WeslleyRAraujo/afterimage-doc>
+A declaração simples de rota é feita da seguinte maneira:
 
-## Views [Twig template Engine]
+- Arquivo **/public/index.php**
+```php
+<?php
+include_once "./bootstrap.php";
 
-As views estão localizadas em **/app/views**
+use Afterimage\Core\Router;
 
-- A template engine usada para as views é o Twig na versão 3.0, link para consulta: https://twig.symfony.com/doc/3.x/
-- As views precisam estar com a extensão **.twig** para funcionar.
-	> O template é retornado da forma abaixo, assim como a estrutura básica da documentação oficial do Twig.
-	> exemplo: ``` return view('home', ['title' => 'Home']);```
+$route = new Router();
 
-## Configurações do .env
+// rota via get
+$route->get('/', 'App\Controller\HomeController:index');
 
-As configurações da aplicação podem ser alteradas ou adicionadas no arquivo **/app/config/.env**
+// rota via post
+$route->post('/message', 'App\Controller\HomeController:json');
 
-- *O diretório /app/class são para classes de depêndencias que não estão amarradas ao core como a Twig e do Whoops, a Database é opcional.*
+```
+
+O Objeto ***Router*** é responsável pelo roteamento da aplicação, os métodos **get** e **post** são os auxiliares para esse tipo de tarefa.
+
+Os parâmetros para ambos são:
+> 1. A rota que vai ser acessada;
+> 2. O controlador + método. 'Path\To\Controller:method'
+
+<br>
+
+Os métodos **get** e **post** fazem uso do ```return $this;``` por isso é possível utilizados de forma encadeada como no exemplo abaixo. **Por questões de semântica é recomendado usar apenas para agrupamento de rotas**
+
+```php
+<?php
+include_once "./bootstrap.php";
+
+use Afterimage\Core\Router;
+
+$route = new Router();
+
+// rotas encadeadas
+$route
+    ->get('/usuario/cadastro', 'App\Controller\UserController:index')
+    ->get('/usuario/excluir', 'App\Controller\UserController:delete')
+    ->get('/usuario/salvar', 'App\Controller\UserController:store');
+```
