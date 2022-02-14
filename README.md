@@ -22,7 +22,6 @@ $route->get('/', 'App\Controller\HomeController:index');
 // rota via post
 $route->post('/message', 'App\Controller\HomeController:json');
 
-
 // rota via ambos os métodos
 $route->any('/message', 'App\Controller\HomeController:json');
 ```
