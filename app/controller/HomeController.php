@@ -15,6 +15,6 @@ class HomeController
         echo json_encode([
                 'message' => 'Thanks!!!!',
                 'github' => 'WeslleyRAraujo'
-        ], JSON_PRETTY_PRINT);
+        ], JSON_PRETTY_PRINT); die();
     }
 }
