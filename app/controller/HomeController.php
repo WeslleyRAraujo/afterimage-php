@@ -1,19 +1,12 @@
 <?php
-/**
- * Controller example 
- * 
- * @author Weslley Araujo (WeslleyRAraujo)
- */
+
 namespace App\Controller;
 
 class HomeController
 {
     public function index()
     {
-        return view('home', [
-            'title' => 'Tela Inicial',
-            'breadcrumb' => ['Home']
-        ]);
+        require_once __DIR__ . "/../views/home.html";
     }
 
     public function json()
