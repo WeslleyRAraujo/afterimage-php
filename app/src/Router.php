@@ -25,7 +25,7 @@ class Router
 
     public function get(string $route, string $controller)
     {
-        if(strval($_SERVER['REQUEST_METHOD']) === 'GET') {
+        if($_SERVER['REQUEST_METHOD'] === 'GET') {
             $this->saveRoute("GET", $route, $controller);
         }
         return $this;
@@ -33,7 +33,7 @@ class Router
     
     public function post(string $route, string $controller)
     {
-        if(strval($_SERVER['REQUEST_METHOD']) === 'POST') {
+        if($_SERVER['REQUEST_METHOD'] === 'POST') {
             $this->saveRoute("POST", $route, $controller);
         }
         return $this;
@@ -45,11 +45,9 @@ class Router
         if(substr($route, 0, 1) === "/" && strlen($route) > 1) {
             $route = substr($route, 1);
         }
-
         $controller = explode(":", $controller);
         $class = $controller[0];
         $method = $controller[1];
-
         switch (strtoupper($methodHttp)) {
             case 'GET':
                 array_push($this->getRoutes, $route);
@@ -65,36 +63,20 @@ class Router
         $this->executeRoute($route, $class, $method);
     }
 
-    private function checkController($class)
-    {
-        if(class_exists($class)) {
-            return class_exists($class);
-        }
-        return false;
-    }
-
-    private function dotPhp()
-    {
-        if(mb_strpos($_SERVER['REQUEST_URI'], '.php')){
-            return mb_strpos($_SERVER['REQUEST_URI'], '.php');
-        }
-        return false;
-    }
-
     /**
      *  execute the callback case the url is in @var this->getRoutes or @var this->postRoutes
      */
     private function executeRoute(string $route, string $class, string $method)
     {
         $url = str_replace(".php", "", $_REQUEST['url'] ?? '/');
-
         // only execute callback if url is being acessed
         if($route === $url) {
-            if(!$this->checkController($class)) {
+            if(!class_exists($class)) {
                 die("O Controlador {$class} não existe.");
             }
             // if url have '.php' the status HTTP 404 is returned
-            if($this->dotPhp()) {
+            if(mb_strpos($_SERVER['REQUEST_URI'], '.php')) {
+                header("HTTP/1.0 404 Not Found");
                 http_response_code(404);
                 echo "Página não encontrada."; die();
             }
@@ -111,6 +93,7 @@ class Router
     {
         $url = str_replace(".php", "", $_REQUEST['url'] ?? '/');
         if(!in_array(strval($url), $this->getRoutes) && !in_array(strval($url), $this->postRoutes)) {
+            header("HTTP/1.0 404 Not Found");
             http_response_code(404);
             echo "Página não encontrada."; die();
         }
