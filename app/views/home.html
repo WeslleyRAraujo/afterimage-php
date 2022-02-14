@@ -30,6 +30,9 @@
         }
 
         .topnav {
+            display: flex;
+            align-items: top;
+            justify-content: top;
             background-color: #333;
             overflow: hidden;
         }
@@ -60,7 +63,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-top: 200px !important;
+            margin-top: 120px !important;
         }
 
         .container-box {
@@ -68,6 +71,8 @@
         }
 
         .content-box {
+            align-items: center;
+            justify-content: center;
             font-size: 48px;
             color: #FF7070;
             text-align: center;
@@ -76,15 +81,24 @@
 
         .content-box-small {
             text-align: left;
-            color: #000;
+            color: #333;
             font-weight: 600;
             font-size: 24px;
             margin-top: 48px;
         }
+
+        .footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: #333;
+            color: #FFF;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
-
     <div class="topnav">
         <a class="active" href="/">Home</a>
         <a href="/message">Message</a>
@@ -97,6 +111,9 @@
             <button onclick="window.location.href='/message'">Message</button>
             <button onclick="window.location.href='https://github.com/WeslleyRAraujo'">Github</button>
         </div>
+    </div>
+    <div class="footer">
+        <p>Afterimage-PHP</p>
     </div>
 </body>
 </html>
