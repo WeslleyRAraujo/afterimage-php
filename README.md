@@ -22,6 +22,9 @@ $route->get('/', 'App\Controller\HomeController:index');
 // rota via post
 $route->post('/message', 'App\Controller\HomeController:json');
 
+
+// rota via ambos os métodos
+$route->any('/message', 'App\Controller\HomeController:json');
 ```
 
 O Objeto ***Router*** é responsável pelo roteamento da aplicação, os métodos **get** e **post** são os auxiliares para esse tipo de tarefa.
