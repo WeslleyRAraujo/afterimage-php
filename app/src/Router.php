@@ -112,7 +112,7 @@ class Router
         $url = str_replace(".php", "", $_REQUEST['url'] ?? '/');
         if(!in_array(strval($url), $this->getRoutes) && !in_array(strval($url), $this->postRoutes)) {
             http_response_code(404);
-                echo "Página não encontrada."; die();
+            echo "Página não encontrada."; die();
         }
     }
 }
