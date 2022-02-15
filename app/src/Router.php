@@ -11,10 +11,13 @@ class Router
 {
     private $getRoutes = [];
     private $postRoutes = [];
+    private $controllerCollection = [];
 
     public function __destruct()
     {
+        $this->matchParam();
         $this->hasRoute();
+        unset($this->getRoutes, $this->postRoutes, $this->controllerCollection);
     }
 
     public function any(string $route, string $controller)
@@ -39,8 +42,9 @@ class Router
         return $this;
     }   
 
-    private function saveRoute(string $methodHttp, string $route, string $controller)
+    private function saveRoute(string $methodHttp, string $route, string $controller, $param = null)
     {
+        $this->controllerCollection[$route] = $controller;
         // case the first char is '/' will be removed
         if(substr($route, 0, 1) === "/" && strlen($route) > 1) {
             $route = substr($route, 1);
@@ -60,13 +64,13 @@ class Router
                 array_push($this->getRoutes, $route);
                 break;
         }
-        $this->executeRoute($route, $class, $method);
+        $this->executeRoute($route, $class, $method, $param);
     }
 
     /**
      *  execute the callback case the url is in @var this->getRoutes or @var this->postRoutes
      */
-    private function executeRoute(string $route, string $class, string $method)
+    private function executeRoute(string $route, string $class, string $method, $param = null)
     {
         $url = str_replace(".php", "", $_REQUEST['url'] ?? '/');
         // only execute callback if url is being acessed
@@ -81,7 +85,11 @@ class Router
                 echo "Página não encontrada."; die();
             }
             $classCall = new $class();
-            call_user_func([$classCall, $method]);
+            if(empty($param)) {
+                call_user_func([$classCall, $method]);
+            } else {
+                call_user_func([$classCall, $method], $param);
+            } 
         }
     }
 
@@ -96,6 +104,33 @@ class Router
             header("HTTP/1.0 404 Not Found");
             http_response_code(404);
             echo "Página não encontrada."; die();
+        }
+    }
+
+    private function matchParam()
+    {
+        $url = explode("/", $_REQUEST['url'] ?? "/");
+        $urlTemp = $url;
+        $attr = ["getRoutes", "postRoutes"];
+        foreach($attr as $call) {
+            foreach($this->$call as $route) {
+                if(mb_strpos($route, ":p")) {
+                    $routeController = $route;
+                    $needle = ":p";
+                    $route = explode("/", $route);
+                    $position = array_search($needle, $route);
+                    $url[$position] = ":p";
+                    if($url === $route) {
+                        if(!isset($urlTemp[$position])){return false;}
+                        $route[$position] = $urlTemp[$position];
+                        $param = $urlTemp[$position];
+                        if(empty($param)){return false;}
+                        $route = implode("/", $route);
+                        array_push($this->$call, $route);
+                        $this->saveRoute($call == "getRoutes" ? "GET" : "POST", $route, $this->controllerCollection["/" . $routeController], $param);
+                    }
+                }
+            }
         }
     }
 }

@@ -9,12 +9,19 @@ class HomeController
         require_once __DIR__ . "/../views/home.html";
     }
 
-    public function json()
+    public function json($arg = null)
     {
         header('Content-type: application/json');
         echo json_encode([
                 'message' => 'Thanks!!!!',
-                'github' => 'WeslleyRAraujo'
-        ], JSON_PRETTY_PRINT); die();
+                'github' => 'WeslleyRAraujo',
+                'arg' => $arg
+        ], JSON_PRETTY_PRINT);
+    }
+
+    public function test($arg)
+    {
+        var_dump($arg);
+        echo "test";
     }
 }
