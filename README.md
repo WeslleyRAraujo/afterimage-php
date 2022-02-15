@@ -1,7 +1,8 @@
 # Rotas - Afterimage
 
 Como posso definir e executar rotas no meu projeto?
-- As rotas são definidas no arquivo **/public/index.php**;
+- Para esse exemplo rotas são definidas no arquivo **/public/index.php**;
+- A classe principal é a **/app/src/Router.php**
 - As rotas trabalham com os métodos GET e POST.
 <br>
 
@@ -26,15 +27,55 @@ $route->post('/message', 'App\Controller\HomeController:json');
 $route->any('/message', 'App\Controller\HomeController:json');
 ```
 
-O Objeto ***Router*** é responsável pelo roteamento da aplicação, os métodos **get** e **post** são os auxiliares para esse tipo de tarefa.
+O Objeto ***Router*** é responsável pelo roteamento da aplicação, os métodos **get** , **post** e **any** são os auxiliares para esse tipo de tarefa.
 
 Os parâmetros para ambos são:
 > 1. A rota que vai ser acessada;
-> 2. O controlador + método. 'Path\To\Controller:method'
+> 2. A Classe + método. 'Path\To\Class:method'
 
 <br>
 
-Os métodos **get** e **post** fazem uso do ```return $this;``` por isso é possível utilizados de forma encadeada como no exemplo abaixo. **Por questões de semântica é recomendado usar apenas para agrupamento de rotas**
+Parâmetro na rota:
+
+É possível utilizar um *route param* por rota declara, conforme o exemplo abaixo.
+os parâmetros precisam estar declarados com **:p**
+- Arquivo **/public/index.php**
+```php
+<?php
+include_once "./bootstrap.php";
+
+use Afterimage\Core\Router;
+
+$route = new Router();
+
+// :p representa que esse dado da rota é um parâmetro
+$route->get('/message/:p', 'App\Controller\HomeController:json');
+```
+
+Para capturar o parâmetro o método da classe recebe um parâmetro
+- Arquivo **/app/controller/HomeController.php**
+```php
+<?php
+
+namespace App\Controller;
+
+class HomeController
+{
+	public function json($arg)
+	{
+		header('Content-type: application/json');
+		echo json_encode([
+			'message' => 'Thanks!!!!',
+			'github' => 'WeslleyRAraujo',
+			'arg' => $arg
+		], JSON_PRETTY_PRINT);
+	}
+}
+```
+<br>
+
+
+Os métodos **get**, **post** e **any** podem ser encadeados como no exemplo abaixo. **Por questões de semântica é recomendado usar apenas para agrupamento de rotas**
 
 ```php
 <?php
@@ -44,7 +85,6 @@ use Afterimage\Core\Router;
 
 $route = new Router();
 
-// rotas encadeadas
 $route
     ->get('/usuario/cadastro', 'App\Controller\UserController:index')
     ->get('/usuario/excluir', 'App\Controller\UserController:delete')
