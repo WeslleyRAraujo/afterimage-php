@@ -9,14 +9,8 @@ class HomeController
         require_once __DIR__ . "/../views/home.html";
     }
 
-    public function json($arg = null)
+    public function message($arg = null)
     {
         require_once __DIR__ . "/../views/thanks.php";
-    }
-
-    public function test($arg)
-    {
-        var_dump($arg);
-        echo "test";
     }
 }
