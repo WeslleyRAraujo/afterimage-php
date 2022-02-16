@@ -7,7 +7,6 @@ window.onload = () => {
         'M385.5,328Q340,406,265.5,379.5Q191,353,118,301.5Q45,250,100,167.5Q155,85,240,102.5Q325,120,378,185Q431,250,385.5,328Z'
     ]
     const blob = document.querySelector('path')
-    console.log("a")
     var i = 0
     setInterval(() => {
         blob.setAttribute('d', events[i])
