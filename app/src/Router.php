@@ -12,17 +12,19 @@ class Router
     private $getRoutes = [];
     private $postRoutes = [];
     private $controllerCollection = [];
+    private $paramCollection = [];
+    private $lastRoute;
 
     public function __destruct()
     {
         $this->matchParam();
         $this->hasRoute();
-        unset($this->getRoutes, $this->postRoutes, $this->controllerCollection);
     }
 
     public function any(string $route, string $controller)
     {
         $this->saveRoute("ANY", $route, $controller);
+        $this->lastRoute = $route;
         return $this;
     }
 
@@ -30,6 +32,7 @@ class Router
     {
         if($_SERVER['REQUEST_METHOD'] === 'GET') {
             $this->saveRoute("GET", $route, $controller);
+            $this->lastRoute = $route;
         }
         return $this;
     }
@@ -38,9 +41,15 @@ class Router
     {
         if($_SERVER['REQUEST_METHOD'] === 'POST') {
             $this->saveRoute("POST", $route, $controller);
+            $this->lastRoute = $route;
         }
         return $this;
     }   
+
+    public function param($regex) {
+        $this->paramCollection[$this->lastRoute] = $regex;
+        unset($this->lastRoute);
+    }
 
     private function saveRoute(string $methodHttp, string $route, string $controller, $param = null)
     {
@@ -109,28 +118,71 @@ class Router
 
     private function matchParam()
     {
-        $url = explode("/", $_REQUEST['url'] ?? "/");
-        $urlTemp = $url;
+        $url = explode("/", $_REQUEST['url'] ?? "/"); // current url
+        $urlTemp = $url; 
         $attr = ["getRoutes", "postRoutes"];
         foreach($attr as $call) {
             foreach($this->$call as $route) {
+                // case the route have :p will be checked if the current url match with a route declared in $this->getRoutes or $this->postRoutes
                 if(mb_strpos($route, ":p")) {
-                    $routeController = $route;
-                    $needle = ":p";
-                    $route = explode("/", $route);
+                    $routeController = $route; // route for searching in $this->controllerCollection
+                    $needle = ":p"; 
+                    $route = explode("/", $route); // route 
                     $position = array_search($needle, $route);
-                    $url[$position] = ":p";
+                    $url[$position] = ":p"; // current url
                     if($url === $route) {
-                        if(!isset($urlTemp[$position])){return false;}
+                        if(!isset($urlTemp[$position])){return false;} // if not isset the position in current the page 404 will be returned
                         $route[$position] = $urlTemp[$position];
                         $param = $urlTemp[$position];
-                        if(empty($param)){return false;}
+                        if(empty($param)){return false;} // if param is empty don't match
                         $route = implode("/", $route);
+                        $url = implode("/", $url);
+                        $param = $this->checkParamEx("/" . $url, $param);
+                        if(!$param){return false;} // if the parameter does not match the 'where' of the route, page 404 will be returned
                         array_push($this->$call, $route);
-                        $this->saveRoute($call == "getRoutes" ? "GET" : "POST", $route, $this->controllerCollection["/" . $routeController], $param);
+                        if(!$param){return false;}
+                        if($_SERVER['REQUEST_METHOD'] === 'GET') {
+                            $this->saveRoute("GET", $route, $this->controllerCollection["/" . $routeController], $param);
+                            break;
+                        } elseif($_SERVER['REQUEST_METHOD'] === 'POST') {
+                            $this->saveRoute("POST", $route, $this->controllerCollection["/" . $routeController], $param);
+                            break;
+                        }
                     }
                 }
             }
+        }
+    }
+
+    private function checkParamEx($route, $param) {
+        if(!isset($this->paramCollection[$route])) {
+            return $param;
+        }
+        switch ($this->paramCollection[$route]) {
+            case 'int':
+                if(intval($param)) {
+                    return intval($param);
+                }
+                return false;
+                break;
+            case 'string':
+                if(intval($param)) {
+                    return false;
+                }
+                if(strval($param)) {
+                    return strval($param);
+                }
+                break;
+            case 'any':
+                if(intval($param)) {
+                    return intval($param);
+                }
+                if(strval($param)) {
+                    return strval($param);
+                }
+                break;
+            default:
+                throw new \RuntimeException("Solicitação inválida."); die();
         }
     }
 }

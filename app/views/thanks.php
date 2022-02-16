@@ -32,10 +32,6 @@
             font-size: 18px;
         }
 
-        span {
-            color: #FF7070;
-        }
-
         .topnav {
             display: flex;
             align-items: top;
@@ -61,10 +57,6 @@
             color: #FF7070;
         }
 
-        .topnav a.inactive {
-            color: grey;
-            pointer-events: none;
-        }
         .topnav a.active {
             background-color: #FF7070;
             color: white;
@@ -91,6 +83,7 @@
         }
 
         .content-box-small {
+            text-align: left;
             color: #333;
             font-weight: 600;
             font-size: 24px;
@@ -126,28 +119,39 @@
         #input-pretty:focus {
             outline: none;
         }
+
+        #name {
+            color: #333;
+        }
+
+        svg {
+            position: absolute;
+            z-index: -1;
+        }
+
+        path {
+            transition: 1s;
+        }
     </style>
 </head>
 <body>
     <div class="topnav">
-        <a class="active" href="/">Home</a>
-        <a class="inactive" href="/message">message</a>
+        <a href="/">Home</a>
+        <a class="active" href="/message/<?=$arg;?>">Message</a>
         <a href="https://github.com/WeslleyRAraujo">Github</a>
     </div>
     <div class="flex-box container-box">
+        <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25%" id="blobSvg">
+            <path id="blob" d="M323,305.5Q314,361,238,382Q162,403,96.5,326.5Q31,250,99.5,179Q168,108,230.5,141.5Q293,175,312.5,212.5Q332,250,323,305.5Z" fill="#ccc"></path>
+        </svg>
         <div class="content-box">
-            SIMPLE ROUTES WITH PHP
-            <div class="content-box-small"><span>/simple</span>/and<span>/pretty</span>/routes</div>
-            <br>
-            <input type="text" id="input-pretty" placeholder="input your name here..." />
-            <br>
-            <button id="send-message">See Message</button>
-            <button onclick="window.location.href='https://github.com/WeslleyRAraujo'">See my Github</button>
+            <strong>Hi, <span id="name"><?php echo ucwords($arg)?></span> Thanks for testing!!!</strong>
         </div>
     </div>
     <div class="footer">
         <p>Afterimage-PHP</p>
     </div>
-    <script src="/script.js"></script>
-</body>
+
+    <script src="/blob.js"></script>
+</body> 
 </html>

@@ -11,12 +11,7 @@ class HomeController
 
     public function json($arg = null)
     {
-        header('Content-type: application/json');
-        echo json_encode([
-                'message' => 'Thanks!!!!',
-                'github' => 'WeslleyRAraujo',
-                'arg' => $arg
-        ], JSON_PRETTY_PRINT);
+        require_once __DIR__ . "/../views/thanks.php";
     }
 
     public function test($arg)
