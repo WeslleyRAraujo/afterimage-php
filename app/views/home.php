@@ -36,6 +36,10 @@
             color: #FF7070;
         }
 
+        input { 
+            text-align: center; 
+        }
+
         .topnav {
             display: flex;
             align-items: top;
@@ -130,8 +134,7 @@
 </head>
 <body>
     <div class="topnav">
-        <a class="active" href="/">Home</a>
-        <a class="inactive" href="/message">message</a>
+        <a class="active" href="<?php route('/'); ?>">Home</a>
         <a href="https://github.com/WeslleyRAraujo">Github</a>
     </div>
     <div class="flex-box container-box">
@@ -139,15 +142,15 @@
             SIMPLE ROUTES WITH PHP
             <div class="content-box-small"><span>/simple</span>/and<span>/pretty</span>/routes</div>
             <br>
-            <input type="text" id="input-pretty" placeholder="input your name here..." />
+            <input type="text" id="input-pretty" placeholder="Your Name Here" />
             <br>
-            <button id="send-message">See Message</button>
-            <button onclick="window.location.href='https://github.com/WeslleyRAraujo'">See my Github</button>
+            <button id="send-message">Message</button>
+            <button onclick="window.location.href='https://github.com/WeslleyRAraujo'">Github</button>
         </div>
     </div>
     <div class="footer">
         <p>Afterimage-PHP</p>
     </div>
-    <script src="/script.js"></script>
+    <script src="<?php asset('/assets/js/script.js'); ?>"></script>
 </body>
 </html>

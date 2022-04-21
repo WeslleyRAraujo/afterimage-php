@@ -112,7 +112,19 @@ class Router
         if(!in_array(strval($url), $this->getRoutes) && !in_array(strval($url), $this->postRoutes)) {
             header("HTTP/1.0 404 Not Found");
             http_response_code(404);
-            echo "Página não encontrada."; die();
+
+            $notFound = parse_ini_file(__DIR__ . "/../settings.ini", true);
+            if(isset($notFound['404_page']) && $notFound['404_page'] != '') {
+                $notFound = ltrim($notFound['404_page'], '\\/');
+
+                if(file_exists(__DIR__ . '/../views/' . $notFound)) {
+                    include_once __DIR__ . '/../views/' . $notFound;
+                } else {
+                    echo "Página não encontrada.";
+                }
+            } else {
+                echo "Página não encontrada.";
+            }
         }
     }
 
@@ -154,7 +166,8 @@ class Router
         }
     }
 
-    private function checkParamEx($route, $param) {
+    private function checkParamEx($route, $param) 
+    {
         if(!isset($this->paramCollection[$route])) {
             return $param;
         }

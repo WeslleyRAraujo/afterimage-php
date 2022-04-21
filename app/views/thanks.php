@@ -79,7 +79,7 @@
             font-size: 48px;
             color: #FF7070;
             text-align: center;
-            width: 600px;
+            width: 80vw;
         }
 
         .content-box-small {
@@ -136,8 +136,7 @@
 </head>
 <body>
     <div class="topnav">
-        <a href="/">Home</a>
-        <a class="active" href="/message/<?=$arg;?>">Message</a>
+        <a href="<?php route('/'); ?>">Home</a>
         <a href="https://github.com/WeslleyRAraujo">Github</a>
     </div>
     <div class="flex-box container-box">
@@ -152,6 +151,6 @@
         <p>Afterimage-PHP</p>
     </div>
 
-    <script src="/blob.js"></script>
+    <script src="<?php asset('/assets/js/blob.js'); ?>"></script>
 </body> 
 </html>

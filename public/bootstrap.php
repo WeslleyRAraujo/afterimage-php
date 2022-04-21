@@ -1,7 +1,13 @@
 <?php
+/*
+|--------------------------------------------------------------------------
+| Start autoload, include dependencies of /app
+|--------------------------------------------------------------------------
+*/
+
+// Autoload
 spl_autoload_register(function(string $file){
-    
-    $requireDirs = [__DIR__ . "/../app/controller/"];
+    global $requireDirs;
     $parts = explode('\\', $file);
     foreach ($requireDirs as $dir) {
     	if(file_exists($dir .  end($parts) . ".php")) {
@@ -9,4 +15,5 @@ spl_autoload_register(function(string $file){
     	}
     }
 });
-include_once __DIR__ . "/../app/src/Router.php";
+
+include_once __DIR__ . "/../app/share.php";
