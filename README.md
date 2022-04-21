@@ -8,12 +8,10 @@ Como posso definir e executar rotas no meu projeto?
 
 A declaração simples de rota é feita da seguinte maneira:
 
-- Arquivo **/public/index.php**
+- Arquivo **/app/http/routes/router.php**
 ```php
 <?php
 include_once "./bootstrap.php";
-
-use Afterimage\Core\Router;
 
 $route = new Router();
 
@@ -39,12 +37,10 @@ Parâmetro na rota:
 
 É possível utilizar um *route param* por rota declara, conforme o exemplo abaixo.
 os parâmetros precisam estar declarados com **:p**
-- Arquivo **/public/index.php**
+- Arquivo **/app/http/routes/router.php**
 ```php
 <?php
 include_once "./bootstrap.php";
-
-use Afterimage\Core\Router;
 
 $route = new Router();
 
